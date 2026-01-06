@@ -61,10 +61,6 @@ export default function Page() {
           <ResultsTabs data={data} />
         </div>
       </main>
-
-      <footer className="h-12 flex items-center justify-center text-xs text-slate-500">
-        © 2026
-      </footer>
     </div>
   );
 }
