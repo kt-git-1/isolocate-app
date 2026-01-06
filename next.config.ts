@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Turbopack is disabled via env in package.json scripts (TURBOPACK=0).
 };
 
 export default nextConfig;
