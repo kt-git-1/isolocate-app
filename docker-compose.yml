@@ -32,7 +32,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://isolocate_user:isolocate_pass@db:5432/isolocate_db
     volumes:
-      - ./app:/app/app
+      - ./next-app:/app
       - /app/node_modules
     ports:
       - "3000:3000"
