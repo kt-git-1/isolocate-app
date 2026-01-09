@@ -5,9 +5,9 @@ export type GroupCount = "two" | "more2";
 export type Stepwise = "none" | "forward" | "backward";
 
 export type IsotopeInputs = {
-  collagen: { col13c: string; col15n: string; col34s: string };
-  apatite: { a13c: string; a18o: string };
-  enamel: { e13c: string; e18o: string };
+  collagen: { col13c: number; col15n: number; col34s: number };
+  apatite: { a13c: number; a18o: number };
+  enamel: { e13c: number; e18o: number };
 };
 
 export type EvaluateRequest = {

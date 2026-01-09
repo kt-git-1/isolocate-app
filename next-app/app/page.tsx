@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useState } from "react";
 import { TopNav } from "./components/TopNav";
 import { ComparisonSidebar } from "./components/ComparisonSidebar";
@@ -20,9 +21,9 @@ const initial: EvaluateRequest = {
   populations: ["Japan", "SEA", "US"],
 
   isotopes: {
-    collagen: { col13c: "", col15n: "", col34s: "" },
-    apatite: { a13c: "", a18o: "" },
-    enamel: { e13c: "", e18o: "" },
+    collagen: { col13c: 0, col15n: 0, col34s: 0 },
+    apatite: { a13c: 0, a18o: 0 },
+    enamel: { e13c: 0, e18o: 0 },
   },
 };
 
