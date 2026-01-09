@@ -3,7 +3,8 @@ import json
 import time
 import uuid
 import psycopg2
-import pandas as pd
+import csv
+from statistics import mean
 from psycopg2.extras import RealDictCursor
 
 DB_URL = os.getenv("DATABASE_URL")
@@ -34,18 +35,17 @@ def get_reference_dataset_info(conn, dataset_id):
         return cur.fetchone()
 
 def run_dummy_analysis(input_data, reference_path):
-    # input_data は {"values": [ ... ]} のような形式を想定
     values = input_data.get("values", [])
-    ref_df = pd.read_csv(reference_path)
-    ref_mean = ref_df["value"].mean() if "value" in ref_df.columns else 0
-    input_mean = sum(values) / len(values) if values else 0
-    # ダミーとして両者の和を返す
+    with open(reference_path, newline="") as f:
+        reader = csv.DictReader(f)
+        ref_values = [float(row["value"]) for row in reader]
+    ref_mean = mean(ref_values) if ref_values else 0
+    input_mean = mean(values) if values else 0
     return {
         "input_mean": input_mean,
         "ref_mean": ref_mean,
         "combined": input_mean + ref_mean
     }
-
 def save_result(conn, job_id, result_json, error=None):
     status = "succeeded" if error is None else "failed"
     with conn.cursor() as cur:
