@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Footer } from "./components/Footer";
+import React from "react";
 
 export const metadata = {
   title: "IsoLocate UI Mock",

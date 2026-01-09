@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   db:
     image: postgres:14
@@ -25,8 +23,8 @@ services:
 
   app:
     build:
-      context: ./app
-      dockerfile: ../Dockerfile
+      context: .
+      dockerfile: ./Dockerfile
     container_name: isolocate_app
     depends_on:
       - db
@@ -34,7 +32,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://isolocate_user:isolocate_pass@db:5432/isolocate_db
     volumes:
-      - ./app:/app
+      - ./app:/app/app
       - /app/node_modules
     ports:
       - "3000:3000"

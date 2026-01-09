@@ -1,5 +1,5 @@
 # 開発用の軽量イメージ
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -7,8 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# 残りのソースコードをコピー
-COPY . .
+# 残りのソースコードをコピー（appディレクトリの内容を/app/appにコピー）
+COPY ./app ./app
 
 # Next.js の開発サーバーを起動
 CMD ["npm", "run", "dev"]
