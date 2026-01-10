@@ -50,3 +50,17 @@ services:
     volumes:
       - ./worker:/worker
       - ./reference-datasets:/reference-datasets
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: isolocate_pgadmin
+    restart: always
+    depends_on:
+      - db              # データベースが起動してからpgAdminを起動
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@isolocate.dev    # ログイン用メールアドレス（任意に変更）
+      PGADMIN_DEFAULT_PASSWORD: isolocate         # パスワード（任意に変更）
+    ports:
+      - "8080:80"       # ホストの8080番ポートをpgAdminに公開
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin  # 設定や保存した接続情報を永続化

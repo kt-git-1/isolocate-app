@@ -2,5 +2,6 @@ node_modules
 .DS_Store
 .next/
 postgres-data/
+pgadmin-data/
 next-app/.env.local
 flyway.conf

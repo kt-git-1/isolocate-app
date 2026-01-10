@@ -7,8 +7,8 @@ WORKDIR /app
 COPY ./next-app/package*.json ./
 RUN npm install
 
-# 残りのソースコードをコピー（appディレクトリの内容を/app/appにコピー）
-COPY ./next-app/app ./app
+# 残りのソースコードをコピー
+COPY ./next-app/ .
 
 # Next.js の開発サーバーを起動
 CMD ["npm", "run", "dev"]
