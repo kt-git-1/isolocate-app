@@ -10,5 +10,7 @@ RUN npm install
 # 残りのソースコードをコピー
 COPY ./next-app/ .
 
+EXPOSE 3000
+
 # Next.js の開発サーバーを起動
 CMD ["npm", "run", "dev"]

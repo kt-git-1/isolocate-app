@@ -32,23 +32,35 @@ export default function Page() {
   const router = useRouter();
   
   const onEvaluate = async () => {
+    console.log('評価ボタンがクリックされました', form);
     setLoading(true);
     try {
-      // toAnalysisPayloadは非同期関数になったため、APIルートで処理する
       const res = await fetch("/api/analysis-runs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ request: form }),
       });
+      
+      console.log('APIレスポンス:', res.status, res.statusText);
+      
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || `APIエラー: ${res.status}`);
+        console.error('APIエラー:', errorData);
+        throw new Error(errorData.error || `APIエラー: ${res.status} ${res.statusText}`);
       }
-      const { id } = await res.json();
-      router.push(`/runs/${id}`);
+      
+      const data = await res.json();
+      console.log('APIレスポンスデータ:', data);
+      
+      if (!data.id) {
+        throw new Error('レスポンスにIDが含まれていません');
+      }
+      
+      router.push(`/runs/${data.id}`);
     } catch (error) {
       console.error('分析実行の作成エラー:', error);
-      alert(error instanceof Error ? error.message : '分析実行の作成に失敗しました');
+      const errorMessage = error instanceof Error ? error.message : '分析実行の作成に失敗しました';
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }

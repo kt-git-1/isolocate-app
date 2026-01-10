@@ -1,0 +1,14 @@
+# Node / Next
+./next-app/node_modules
+./next-app/.next
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+
+# OS
+.DS_Store

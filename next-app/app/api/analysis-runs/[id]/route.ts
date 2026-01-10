@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '../../../lib/db';
+
+// db.tsを動的インポートにして、pgモジュールをビルド時に解決しないようにする
+async function getQuery() {
+  const { query } = await import('../../../lib/db');
+  return query;
+}
 
 export async function GET(
   request: NextRequest,
@@ -15,6 +20,7 @@ export async function GET(
       );
     }
 
+    const query = await getQuery();
     const runs = await query(
       `SELECT id, status, result_json, error_message FROM analysis_run WHERE id = $1`,
       [id]
