@@ -9,22 +9,34 @@ export default function RunPage({ params }: { params: { id: string } }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let mounted = true;
     const interval = setInterval(async () => {
-      const res = await fetch(`/api/analysis-runs/${id}`);
-      if (res.ok) {
-        const json = await res.json();
-        setStatus(json.status);
-        setResult(json.result_json);
-        setError(json.error_message);
-        if (json.status === 'succeeded' || json.status === 'failed') {
+      try {
+        const res = await fetch(`/api/analysis-runs/${id}`);
+        if (!mounted) return;
+        
+        if (res.ok) {
+          const json = await res.json();
+          setStatus(json.status);
+          setResult(json.result_json);
+          setError(json.error_message);
+          if (json.status === 'succeeded' || json.status === 'failed') {
+            clearInterval(interval);
+          }
+        } else {
           clearInterval(interval);
+          setError('ジョブが見つかりませんでした');
         }
-      } else {
+      } catch (err) {
+        if (!mounted) return;
         clearInterval(interval);
-        setError('ジョブが見つかりませんでした');
+        setError(err instanceof Error ? err.message : '予期しないエラーが発生しました');
       }
     }, 3000);
-    return () => clearInterval(interval);
+    return () => {
+      mounted = false;
+      clearInterval(interval);
+    };
   }, [id]);
 
   return (

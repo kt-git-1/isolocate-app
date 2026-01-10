@@ -38,16 +38,21 @@ export default function Page() {
     setLoading(true);
     setData(null);
     try {
-      const payload = toAnalysisPayload(form);
+      // toAnalysisPayloadは非同期関数になったため、APIルートで処理する
       const res = await fetch("/api/analysis-runs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ request: form }),
       });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || `APIエラー: ${res.status}`);
+      }
       const { id } = await res.json();
-      router.push(`/analysis-runs/${id}`);
+      router.push(`/runs/${id}`);
     } catch (error) {
-      console.error(error);
+      console.error('分析実行の作成エラー:', error);
+      alert(error instanceof Error ? error.message : '分析実行の作成に失敗しました');
     } finally {
       setLoading(false);
     }
