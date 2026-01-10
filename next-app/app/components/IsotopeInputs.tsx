@@ -10,8 +10,8 @@ function Section({
 }: {
   title: string;
   cols: { key: string; label: string }[];
-  values: Record<string, string>;
-  onChange: (next: Record<string, string>) => void;
+  values: Record<string, number>;
+  onChange: (next: Record<string, number>) => void;
 }) {
   return (
     <div className="space-y-2">
@@ -24,7 +24,7 @@ function Section({
             <input
               className="w-full rounded border px-2 py-1.5 text-sm"
               value={values[c.key] ?? ""}
-              onChange={(e) => onChange({ ...values, [c.key]: e.target.value })}
+              onChange={(e) => onChange({ ...values, [c.key]: Number(e.target.value) })}
             />
           </div>
         ))}
